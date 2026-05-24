@@ -1,0 +1,42 @@
+# Compiled output
+target/
+*.class
+*.jar
+*.war
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Environment / secrets — NEVER commit these
+.env
+.env.local
+.env.production
+application-local.yml
+application-prod.yml
+application-secrets.yml
+
+# Spring Boot DevTools
+.spring-javaformat/
