@@ -23,11 +23,5 @@ public class Provider {
     @Indexed(unique = true)
     private String code;
 
-    private String name;
-    private Colors colors;
-    private Map<String, String> hosts;
-    private String icon;
-    private Links links;
-    private Offers offers;
-    private Map<String, String> ads;
+    private Map<String, Object> data;
 }

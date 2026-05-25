@@ -1,12 +1,6 @@
 package com.serviceprovider.service;
 
-import com.serviceprovider.dto.ColorsDto;
-import com.serviceprovider.dto.LinksDto;
-import com.serviceprovider.dto.OffersDto;
 import com.serviceprovider.dto.ProviderDto;
-import com.serviceprovider.entity.Colors;
-import com.serviceprovider.entity.Links;
-import com.serviceprovider.entity.Offers;
 import com.serviceprovider.entity.Provider;
 import com.serviceprovider.exception.DuplicateCodeException;
 import com.serviceprovider.exception.ProviderNotFoundException;
@@ -51,46 +45,29 @@ class ProviderServiceTest {
     void setUp() {
         providerDto = ProviderDto.builder()
                 .code("leo-tv")
-                .name("Leo Tv")
-                .colors(ColorsDto.builder()
-                        .bright("#F2C858")
-                        .dark("#201E1F")
-                        .theme("#F7C236")
-                        .build())
-                .hosts(Map.of(
-                        "Falcon", "7aeed.store:80",
-                        "HULK", "hulascw.space:8080"
+                .data(Map.of(
+                        "Name", "Leo Tv",
+                        "Colors", Map.of("bright", "#F2C858", "dark", "#201E1F", "theme", "#F7C236"),
+                        "Hosts", Map.of("Falcon", "7aeed.store:80", "HULK", "hulascw.space:8080"),
+                        "Icon", "https://example.com/icon.png",
+                        "Links", Map.of("telegram", "https://t.me/leo_store11", "website", "https://leos20.com/"),
+                        "Offers", Map.of("whatsapp", "https://example.com/offers.png"),
+                        "Ads", Map.of("ad1", "https://example.com/ad1.png")
                 ))
-                .icon("https://example.com/icon.png")
-                .links(LinksDto.builder()
-                        .telegram("https://t.me/leo_store11")
-                        .website("https://leos20.com/")
-                        .whatsapp("https://wa.me/966501070573")
-                        .build())
-                .offers(OffersDto.builder()
-                        .whatsapp("https://example.com/offers.png")
-                        .build())
-                .ads(Map.of("ad1", "https://example.com/ad1.png"))
                 .build();
 
         provider = Provider.builder()
                 .id("64abc123def456")
                 .code("leo-tv")
-                .name("Leo Tv")
-                .colors(Colors.builder()
-                        .bright("#F2C858")
-                        .dark("#201E1F")
-                        .theme("#F7C236")
-                        .build())
-                .hosts(Map.of("Falcon", "7aeed.store:80"))
-                .icon("https://example.com/icon.png")
-                .links(Links.builder()
-                        .telegram("https://t.me/leo_store11")
-                        .build())
-                .offers(Offers.builder()
-                        .whatsapp("https://example.com/offers.png")
-                        .build())
-                .ads(Map.of("ad1", "https://example.com/ad1.png"))
+                .data(Map.of(
+                        "Name", "Leo Tv",
+                        "Colors", Map.of("bright", "#F2C858", "dark", "#201E1F", "theme", "#F7C236"),
+                        "Hosts", Map.of("Falcon", "7aeed.store:80"),
+                        "Icon", "https://example.com/icon.png",
+                        "Links", Map.of("telegram", "https://t.me/leo_store11"),
+                        "Offers", Map.of("whatsapp", "https://example.com/offers.png"),
+                        "Ads", Map.of("ad1", "https://example.com/ad1.png")
+                ))
                 .build();
     }
 
@@ -106,7 +83,7 @@ class ProviderServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getCode()).isEqualTo("leo-tv");
-        assertThat(result.getName()).isEqualTo("Leo Tv");
+        assertThat(result.getData().get("Name")).isEqualTo("Leo Tv");
         verify(providerRepository).save(provider);
     }
 
@@ -132,7 +109,7 @@ class ProviderServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getCode()).isEqualTo("leo-tv");
-        assertThat(result.getColors().getBright()).isEqualTo("#F2C858");
+        assertThat(((Map<?, ?>) result.getData().get("Colors")).get("bright")).isEqualTo("#F2C858");
     }
 
     @Test
@@ -154,7 +131,7 @@ class ProviderServiceTest {
         List<ProviderDto> result = providerService.getAllProviders();
 
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getName()).isEqualTo("Leo Tv");
+        assertThat(result.get(0).getData().get("Name")).isEqualTo("Leo Tv");
     }
 
     @Test
